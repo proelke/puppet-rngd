@@ -1,3 +1,5 @@
+# == Class: rngd
+#
 class rngd  (
   $config            = $rngd::params::config,
   $config_template   = $rngd::params::config_template,
@@ -9,7 +11,7 @@ class rngd  (
   $service_manage    = $rngd::params::service_manage,
   $service_name      = $rngd::params::service_name,
 ) inherits rngd::params {
-  
+
   validate_absolute_path($config)
   validate_string($config_template)
   validate_string($extra_options)

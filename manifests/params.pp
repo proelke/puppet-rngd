@@ -1,3 +1,5 @@
+# == Class: rngd::params
+#
 class rngd::params {
 
   $config_template   = 'rngd/rngd.erb'
@@ -6,7 +8,7 @@ class rngd::params {
   $service_enable    = true
   $service_ensure    = 'running'
   $service_manage    = true
-  
+
   $default_config       = '/etc/sysconfig/rngd'
   $default_package_name = ['rng-tools']
   $default_service_name = 'rngd'
@@ -20,5 +22,5 @@ class rngd::params {
     default: {
       fail("The ${module_name} module is not supported on an ${::osfamily} based system.")
     }
-  }  
+  }
 }
