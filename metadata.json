@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "proelke",
   "summary": "Puppet Module for rngd",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "git://github.com/proelke/proelke-rngd",
   "project_page": "https://github.com/proelke/proelke-rngd",
   "issues_url": "https://github.com/proelke/proelke-rngd/issues",
