@@ -1,21 +1,4 @@
-source ENV['GEM_SOURCE'] || "https://rubygems.org"
-
-group :development, :test do
-  gem 'rake',                    :require => false
-  gem 'rspec-puppet',            :require => false
-  gem 'puppetlabs_spec_helper',  :require => false
-  gem 'serverspec',              :require => false
-  gem 'puppet-lint',             :require => false
-  gem 'beaker-rspec','>=2.2.0',  :require => false
-  gem 'pry',                     :require => false
-  gem 'simplecov',               :require => false
-end
-
-if facterversion = ENV['FACTER_GEM_VERSION']
-  gem 'facter', facterversion, :require => false
-else
-  gem 'facter', :require => false
-end
+source 'https://rubygems.org'
 
 if puppetversion = ENV['PUPPET_GEM_VERSION']
   gem 'puppet', puppetversion, :require => false
@@ -23,4 +6,13 @@ else
   gem 'puppet', :require => false
 end
 
-# vim:ft=ruby
+gem 'metadata-json-lint'
+gem 'puppetlabs_spec_helper', '>= 0.1.0'
+gem 'puppet-lint', '>= 1.0.0'
+gem 'facter', '>= 1.7.0'
+gem 'rspec-puppet'
+
+# rspec must be v2 for ruby 1.8.7
+if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '1.9'
+  gem 'rspec', '~> 2.0'
+end
