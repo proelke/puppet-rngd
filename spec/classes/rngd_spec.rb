@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe 'rngd' do
  let(:title) { 'rngd' }
+  let(:facts) { {
+    :osfamily => 'RedHat',
+  } }
 
   ['RedHat'].each do |system|
     context "when on system #{system}" do
