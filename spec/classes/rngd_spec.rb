@@ -16,9 +16,7 @@ describe 'rngd' do
       end
     end
 
-    it { should contain_class('rngd::install') }
-    it { should contain_class('rngd::config') }
-    it { should contain_class('rngd::service') }
+    it { should contain_class('rngd') }
 
     describe "rngd::config on #{system}" do
       it { should contain_file('/etc/sysconfig/rngd').with_owner('0') }
