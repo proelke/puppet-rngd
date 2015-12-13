@@ -64,7 +64,7 @@ class { '::rngd':
 
 The following parameters are available in the rngd module:
 
-####`config`
+####`config_file`
 
 Sets the file that rngd configuration is written into.
 
