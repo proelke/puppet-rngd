@@ -71,8 +71,10 @@ class rngd (
     validate_string($extra_options)
   }
 
-  validate_re($package_ensure, '^(present|installed|absent|latest)$',
-    'rngd::service_ensure must be present, installed, absent or latest.')
+  # workaround for different fixnum and float behaviour in Puppet 3.x and 4.x:
+  # convert $package_ensure to a string
+  validate_re("${package_ensure}", '^(present|installed|absent|latest|\d+.*)$', # lint:ignore:only_variable_string
+    'rngd::service_ensure must be present, installed, absent, latest or a specific version.')
 
   validate_re($service_ensure, '^(running|stopped)$',
     'rngd::service_ensure must be running or stopped.')

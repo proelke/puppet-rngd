@@ -125,9 +125,9 @@ describe 'rngd' do
       },
       'regex_package_ensure' => {
         :name    => %w(package_ensure),
-        :valid   => %w(present installed absent latest),
-        :invalid => ['purged', 'held', 'invalid', %w(array), { 'ha' => 'sh' }, 3, 2.42, true, false, nil],
-        :message => 'must be present, installed, absent or latest',
+        :valid   => ['present', 'installed', 'absent', 'latest', '5', '5.01', 3, 2.42],
+        :invalid => ['purged', 'held', 'invalid', %w(array), { 'ha' => 'sh' }, true, false, nil],
+        :message => 'must be present, installed, absent, latest or a specific version',
       },
       'regex_service_ensure' => {
         :name    => %w(service_ensure),
