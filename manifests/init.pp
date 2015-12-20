@@ -10,18 +10,7 @@ class rngd (
   $service_ensure  = 'running',
   $service_manage  = true,
   $service_name    = 'USE_DEFAULTS',
-  # deprecated variables
-  $config          = undef,
 ) {
-
-  # deprecations
-  if $config != undef {
-    notify { '*** DEPRECATION WARNING***: $config was renamed to $config_file. Please update your configuration. Support for $config will be removed in the near future!': }
-    $config_file_temp = $config
-  } else {
-    $config_file_temp = $config_file
-  }
-  # /deprecations
 
   # osfamily deviation handling
   case $::osfamily {
@@ -35,10 +24,10 @@ class rngd (
     }
   }
 
-  if $config_file_temp == 'USE_DEFAULTS' {
+  if $config_file == 'USE_DEFAULTS' {
     $config_file_real = $config_file_default
   } else {
-    $config_file_real = $config_file_temp
+    $config_file_real = $config_file
   }
 
   if $package_name == 'USE_DEFAULTS' {
