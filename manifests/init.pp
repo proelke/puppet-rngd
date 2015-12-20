@@ -85,8 +85,8 @@ class rngd (
   if $extra_options != undef {
     validate_string($extra_options)
   }
-  validate_re($package_ensure, '^(present|installed|absent|latest)$',
-    'rngd::service_ensure must be present, installed, absent or latest.')
+  validate_re("${package_ensure}", '^(present|installed|absent|latest|\d+.*)$', # lint:ignore:only_variable_string
+    'rngd::service_ensure must be present, installed, absent, latest or a specific version.')
   validate_re($service_enable_string, '^(true|false|manual|mask)$',
     'rngd::service_ensure must be true, false, manual or mask.')
   validate_re($service_ensure_string, '^(running|stopped|true|false)$',
