@@ -4,13 +4,12 @@
 ####Table of Contents
 
 1. [Overview](#overview)
-2. [Compatibility](#compatibility)
-3. [Module Description - What the module does and why it is useful](#module-description)
-4. [Setup](#setup)
+1. [Module Description - What the module does and why it is useful](#module-description)
+1. [Compatibility](#compatibility)
+1. [Setup](#setup)
     * [Managed Resources](#managed-resources)
-5. [Usage - Configuration options and additional functionality](#usage)
-6. [Parameters](#parameters)
-6. [Limitations - OS compatibility, etc.](#limitations)
+1. [Usage - Configuration options and additional functionality](#usage)
+1. [Parameters](#parameters)
 
 ===
 
@@ -21,20 +20,21 @@ The rngd module installs, configures, and manages the RNGD service.
 
 The rngd module handles installing, configuring, and running RNGD across a range of operating systems and distributions.
 
-#Setup
-##Managed Resources
-
-* rngd package
-* rngd configuration file
-* rngd service
-
-# Compatibility
+#Compatibility
 This module is built for use with Puppet v3 (with and without the future
 parser) and Puppet v4 on the following platforms and supports Ruby versions
 1.8.7, 1.9.3, 2.0.0 and 2.1.0.
 
 * EL 5
 * EL 6
+
+
+#Setup
+##Managed Resources
+
+* rngd package
+* rngd configuration file
+* rngd service
 
 
 #Usage
@@ -64,12 +64,6 @@ Absolute path to rngd configuration file. Configuration will be written to this 
 - *Default*: 'USE_DEFAULTS'
 
 
-####config_template (string)
-Path and name to the template that should be used for the rngd configuration file.
-
-- *Default*: 'rngd/rngd.erb'
-
-
 ####extra_options (string)
 Options that will be used for the EXTRAOPTIONS paramater in rngd configuration file.
 
@@ -94,8 +88,8 @@ Determines if the service should be enabled at boot.
 - *Default*: true
 
 
-####service_ensure (string or boolean)
-Determines if the service should be running or not. Can be set to 'running', 'stopped', 'true' or 'false'.
+####service_ensure (string)
+Determines if the service should be running or not. Can be set to 'running' or 'stopped'.
 
 - *Default*: 'running'
 
@@ -110,16 +104,3 @@ Selects whether Puppet should manage the service.
 Selects the name of the rngd service for Puppet to manage. 'USE_DEFAULTS' will choose the service name based on the osfamily.
 
 - *Default*: 'USE_DEFAULTS'
-
-
-##Limitations
-This module has been built on and tested against Puppet 2.7 and higher.
-
-The module has been tested on:
-
-* RedHat Enterprise Linux 5
-* RedHat Enterprise Linux 6
-* CentOS 5
-* CentOS 6
-
-Testing on other platforms has not been completed. 

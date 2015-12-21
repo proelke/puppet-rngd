@@ -29,5 +29,3 @@ doc/
 coverage/
 spec/fixtures/modules/*
 spec/fixtures/manifests/*
-# needed to spec test alternative templates
-!spec/fixtures/modules/my_rngd
