@@ -6,7 +6,8 @@ describe 'rngd' do
     }
   end
   config_file_content = <<-END.gsub(/^\s+\|/, '')
-    |# rngd: Managed by puppet.
+    |# This file is being maintained by Puppet.
+    |# DO NOT EDIT
     |#
     |# Add extra options here
     |EXTRAOPTIONS=""
@@ -58,7 +59,8 @@ describe 'rngd' do
   context 'when config_template is set to valid <my_rngd/rngd_alt.erb> (as String)' do
     let(:params) { { :config_template => 'my_rngd/rngd_alt.erb' } }
     config_file_content_alt = <<-END.gsub(/^\s+\|/, '')
-      |# rngd: Managed by puppet.
+      |# This file is being maintained by Puppet.
+      |# DO NOT EDIT
       |#
       |EXTRAOPTIONS=""
     END
