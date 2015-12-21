@@ -19,12 +19,13 @@ describe 'rngd' do
     it do
       should contain_package('rng-tools').with({
         'ensure' => 'present',
-        'before' => 'File[/etc/sysconfig/rngd]',
+        'before' => 'File[rngd_config]',
       })
     end
     it do
-      should contain_file('/etc/sysconfig/rngd').with({
+      should contain_file('rngd_config').with({
         'ensure'  => 'file',
+        'path'    => '/etc/sysconfig/rngd',
         'owner'   => '0',
         'group'   => '0',
         'mode'    => '0644',
@@ -38,47 +39,20 @@ describe 'rngd' do
         'name'       => 'rngd',
         'hasstatus'  => true,
         'hasrestart' => true,
-        'require'    => 'File[/etc/sysconfig/rngd]',
-        'subscribe'  => 'File[/etc/sysconfig/rngd]',
+        'subscribe'  => 'File[rngd_config]',
       })
     end
   end
 
   context 'when config_file is set to valid </etc/sysconfig/rngd_test> (as String)' do
     let(:params) { { :config_file => '/etc/sysconfig/rngd_test' } }
-    it { should contain_file('/etc/sysconfig/rngd_test') }
-    it { should contain_package('rng-tools').with_before('File[/etc/sysconfig/rngd_test]') }
-    it do
-      should contain_service('rngd').with({
-        'require'    => 'File[/etc/sysconfig/rngd_test]',
-        'subscribe'  => 'File[/etc/sysconfig/rngd_test]',
-      })
-    end
-  end
-
-  context 'when config_template is set to valid <my_rngd/rngd_alt.erb> (as String)' do
-    let(:params) { { :config_template => 'my_rngd/rngd_alt.erb' } }
-    config_file_content_alt = <<-END.gsub(/^\s+\|/, '')
-      |# This file is being maintained by Puppet.
-      |# DO NOT EDIT
-      |#
-      |EXTRAOPTIONS=""
-    END
-    it do
-      should contain_file('/etc/sysconfig/rngd').with({
-        'ensure'  => 'file',
-        'owner'   => '0',
-        'group'   => '0',
-        'mode'    => '0644',
-        'content' => config_file_content_alt,
-      })
-    end
+    it { should contain_file('rngd_config').with({ 'path' => '/etc/sysconfig/rngd_test' }) }
   end
 
   context 'when extra_options is set to valid <-r /dev/urandom> (as String)' do
     let(:params) { { :extra_options => '-r /dev/urandom' } }
     it do
-      should contain_file('/etc/sysconfig/rngd').with_content(
+      should contain_file('rngd_config').with_content(
         %r{^EXTRAOPTIONS="-r /dev/urandom"$}
       )
     end
@@ -102,11 +76,6 @@ describe 'rngd' do
     end
   end
 
-  context 'when service_enable is set to valid <manual> (as String)' do
-    let(:params) { { :service_enable => 'manual' } }
-    it { should contain_service('rngd').with_enable('manual') }
-  end
-
   context 'when service_ensure is set to valid <stopped> (as String)' do
     let(:params) { { :service_ensure => 'stopped' } }
     it { should contain_service('rngd').with_ensure('stopped') }
@@ -126,7 +95,7 @@ describe 'rngd' do
     # set needed custom facts and variables
     let(:facts) do
       {
-       :osfamily                  => 'RedHat',
+        :osfamily => 'RedHat',
       }
     end
     let(:validation_params) do
@@ -143,13 +112,13 @@ describe 'rngd' do
         :message => 'is not an absolute path',
       },
       'array/string' => {
-        :name    => ['package_name'],
+        :name    => %w(package_name),
         :valid   => [%w(ar ray), 'string'],
         :invalid => [{ 'ha' => 'sh' }, 3, 2.42, true, false],
         :message => 'is not a string nor an array',
       },
       'bool_stringified' => {
-        :name    => %w(service_manage),
+        :name    => %w(service_manage service_enable),
         :valid   => [true, false, 'true', 'false'],
         :invalid => ['invalid', %w(array), { 'ha' => 'sh' }, 3, 2.42],
         :message => '(Unknown type of boolean|str2bool\(\): Requires either string to work with)',
@@ -160,27 +129,15 @@ describe 'rngd' do
         :invalid => ['purged', 'held', 'invalid', %w(array), { 'ha' => 'sh' }, 3, 2.42, true, false, nil],
         :message => 'must be present, installed, absent or latest',
       },
-      'regex_service_enable' => {
-        :name    => %w(service_enable),
-        :valid   => ['true', 'false', 'manual', 'mask', true, false],
-        :invalid => ['invalid', %w(array), { 'ha' => 'sh' }, 3, 2.42, nil],
-        :message => 'must be true, false, manual or mask',
-      },
       'regex_service_ensure' => {
         :name    => %w(service_ensure),
-        :valid   => ['running', 'stopped', 'true', 'false', true, false],
-        :invalid => ['invalid', %w(array), { 'ha' => 'sh' }, 3, 2.42, nil],
-        :message => 'must be running, stopped, true or false',
+        :valid   => ['running', 'stopped'],
+        :invalid => ['invalid', %w(array), { 'ha' => 'sh' }, 3, 2.42, nil, true],
+        :message => 'must be running or stopped',
       },
       'string' => {
         :name    => %w(extra_options service_name),
         :valid   => ['present'],
-        :invalid => [%w(array), { 'ha' => 'sh' }],
-        :message => 'is not a string',
-      },
-      'string_template_specific' => {
-        :name    => %w(config_template),
-        :valid   => %w(rngd/rngd.erb),
         :invalid => [%w(array), { 'ha' => 'sh' }],
         :message => 'is not a string',
       },
