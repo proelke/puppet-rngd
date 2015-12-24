@@ -131,7 +131,7 @@ describe 'rngd' do
       },
       'regex_service_ensure' => {
         :name    => %w(service_ensure),
-        :valid   => ['running', 'stopped'],
+        :valid   => %w(running stopped),
         :invalid => ['invalid', %w(array), { 'ha' => 'sh' }, 3, 2.42, nil, true],
         :message => 'must be running or stopped',
       },
